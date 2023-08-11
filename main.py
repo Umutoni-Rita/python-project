@@ -46,6 +46,31 @@ def viewStudents():
     for row in data:
         print(row)
 
+def updateInfo():
+    stId = int(input("Enter id of the student to update"))
+    grade_value = int(input("Enter new marks: "))
+    school = input("Enter new school: ")
+    grade = gradeStudent(grade_value)
+
+    cur.execute(''' UPDATE students
+                SET grade = ?, school = ?
+                WHERE stId = ?''', (grade, school, stId))
+    conn.commit()
+    print("Student info updated successfully!")
+
+def deleteStudent():
+    stId = int(input("Enter id of the student to delete"))
+    confirm = input("Confirm record deletion (y/n)")
+    if confirm == 'y':
+        cur.execute("DELETE FROM students WHERE stId = ?", (stId,))
+        conn.commit()
+        print("Record deleted successfully!")
+    elif confirm == 'n':
+        print("Student record was not deleted")
+    else:
+        print('Invalid input')
+
+
 while True:
     print("1. Create a student \n2. View list students \n3. Update a student \n4. Delete a student \n5. Exit")
     option = input("Your option: ")
@@ -55,9 +80,9 @@ while True:
     elif option == '2':
         viewStudents()
     elif option == '3':
-        print("Coming soon")
+        updateInfo()
     elif option == '4':
-        print("Coming soon")
+        deleteStudent()
     elif option == '5':
         break
     else:
@@ -66,36 +91,5 @@ while True:
 cur.close()
 
 
-
-# class Users:
-#     def __init__(self, fname, lname, school, grade) :
-#         self.fname = fname
-#         self.lname = lname
-#         self.school = school
-#         self.grade = grade
-
-#     def gradeStudent(self):
-#         grade = ''
-#         if (self.grade <= 100 and self.grade >= 90):
-#             grade = 'A'
-#         elif(self.grade <= 89 and self.grade >= 75):
-#             grade = 'B'
-#         elif(self.grade <= 74 and self.grade >= 60):
-#             grade = 'C'
-#         elif(self.grade <= 59 and self.grade >= 50):
-#             grade = 'D'
-#         elif(self.grade <= 49 and self.grade >= 35):
-#             grade = 'F'
-#         else:
-#             grade = 'Get out of school'
-#         print(grade) 
-    
-# fname = input("Enter your name: ")
-# lname = input("Enter your last name: ")
-# school = input("Enter your school: ")
-# grade = int(input("Enter your grade: "))
-
-# student = Users({fname}, {lname}, {school}, {grade})
-# student.gradeStudent()
 
 
